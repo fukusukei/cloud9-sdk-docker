@@ -1,0 +1,30 @@
+version: "2"
+
+# set exprorts
+# export USERNAME=username
+# export PASSWORD=basic_auth_password
+# export GROUPNAME=groupname
+# export CLOUD9_EXTERNAL_PORT=8081
+# export MOUNT_HOST_PATH=mount_host_path
+services:
+  ide:
+    build: 
+      context: ide
+      dockerfile: Dockerfile
+      args:
+          - http_proxy=${http_proxy}
+          - https_proxy=${https_proxy}
+          - no_proxy=${no_proxy}
+          - USERNAME=${USERNAME}
+          - GROUPNAME=${USERNAME}
+    container_name: cloud9docker_ide_${USERNAME}
+    environment:
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+      - GROUPNAME=${USERNAME}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${MOUNT_HOST_PATH}:/home/${USERNAME}/workspace
+#      - ${MOUNT_HOST_PATH}:/root/workspace
+    ports:
+      - "${CLOUD9_EXTERNAL_PORT}:8080"
